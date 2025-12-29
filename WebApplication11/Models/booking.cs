@@ -1,14 +1,16 @@
 ﻿using System;
-
-public class Booking
+namespace BookingModels
 {
-    public int id { get; set; }
-    public int event_id { get; set; }
-    public string user_id { get; set; }
-    public DateTime createdat { get; set; }
-
-    public Booking()
+    public class Booking
     {
-        createdat = DateTime.UtcNow;
+        public int id { get; set; }
+        public int event_id { get; set; }
+        public string user_id { get; set; }
+        public DateTime createdat { get; set; }
+
+        public Booking()
+        {
+            createdat = DateTime.UtcNow;
+        }
     }
 }
