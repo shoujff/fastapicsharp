@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using HTTPException;
+using EventModels;
 namespace HTTPException
 {
     public class HttpException : Exception
@@ -21,7 +23,7 @@ class EventService
     {
         eventRepo = new EventRepository();
     }
-    public async Task<Event> Create_Event(string name, int total_seats)
+    public async Task<EventModel> Create_Event(string name, int total_seats)
     {
         try
         {
