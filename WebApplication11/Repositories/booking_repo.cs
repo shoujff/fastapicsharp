@@ -4,10 +4,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using BookingModels;
 public class BookingRepository
 {
-    private readonly List<BookingModel> bookings = new List<BookingModel>();
+    private readonly List<Booking> bookings = new List<Booking>();
     private int _nextId = 1;
     public async Task<int> count_by_event(int event_id)
     {
@@ -19,10 +18,10 @@ public class BookingRepository
         bool query = bookings.Any(b => b.event_id == eventid && b.user_id == userid);
         return await Task.FromResult(query);
         }
-    public Task<BookingModel> create(string userid, int eventid)
+    public Task<Booking> create(string userid, int eventid)
     {
         
-        var booking = new BookingModel
+        var booking = new Booking
         {
            id = _nextId++, // 
            event_id = eventid,

@@ -1,6 +1,6 @@
 ﻿using System;
 namespace EventModels { 
-public class EventModel
+public class Event
 {
     public int id { get; set; }
     public string name { get; set; }
