@@ -8,9 +8,6 @@ namespace BookingModels
         public string user_id { get; set; }
         public DateTime createdat { get; set; }
 
-        public Booking()
-        {
-            createdat = DateTime.UtcNow;
-        }
+
     }
 }

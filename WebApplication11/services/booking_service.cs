@@ -5,7 +5,7 @@ using BookingModels;
     private readonly BookingRepository bookingRepo;
     private readonly EventRepository eventRepo;
 
-    public async Task<BookingModel> Reserve(int eventid, string user_id)
+    public async Task<Booking> Reserve(int eventid, string user_id)
     {
 
         try

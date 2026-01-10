@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Booking
+namespace BookingReq
 {
     public class BookingRequest
     {

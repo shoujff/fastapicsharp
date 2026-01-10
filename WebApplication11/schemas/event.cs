@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
-namespace Event
+namespace EventReq
 {
     public class EventResponse
     {

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using HTTPException;
+using EventModels;
 namespace HTTPException
 {
     public class HttpException : Exception

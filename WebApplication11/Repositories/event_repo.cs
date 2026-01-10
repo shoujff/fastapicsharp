@@ -1,4 +1,4 @@
-﻿
+﻿using EventModels;
 public class EventRepository
 {
     static readonly List<Event> events = new List<Event>();

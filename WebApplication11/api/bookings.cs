@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using Booking;
+using BookingReq;
 using System.Collections.Generic;
 
 namespace booking_router
