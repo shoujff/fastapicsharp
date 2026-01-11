@@ -1,41 +1,56 @@
 using BookingModels;
+using event_router;
+using booking_router;
 using EventModels;
-public static class DataStore
+using HTTPException;
+using booking_repo;
+using event_repo;
+public  class DataStore
 {
-    public static List<Event> Events { get; } = new List<Event>();
-    public static List<Booking> Bookings { get; } = new List<Booking>();
-    static async void Main(string[] args)
+   
+   BookingRepository bookingRepository = new BookingRepository();
+    EventRepository eventRepository = new EventRepository();
+    public static async Task Main(string[] args)
     {
 
         var builder = WebApplication.CreateBuilder(args);
         var app = builder.Build();
 
-        app.MapGet("api/events", () => DataStore.Events);
+        app.MapGet("api/events", () => EventRepository.events);
 
         app.MapPost("api/events", (Event newEvent) =>
         {
-            int newId = DataStore.Events.Count > 0 ? DataStore.Events.Max(e => e.id) + 1 : 1;
-            newEvent.id = newId;
-            DataStore.Events.Add(newEvent);
-            return Results.Created($"/events/{newId}", newEvent);
+            int newId;
+            lock (EventRepository.events) {
+                newId = EventRepository.events.Count > 0 ? EventRepository.events.Max(e => e.id) + 1 : 1;
+                newEvent.id = newId;
+                EventRepository.events.Add(newEvent);
+            }
+                return Results.Created($"api/events/{newId}", newEvent);
+            
         });
 
-        app.MapGet("/bookings", () => DataStore.Bookings);
+        app.MapGet("api/bookings", () => BookingRepository.bookings);
 
-        app.MapPost("/bookings", (Booking booking) =>
+        app.MapPost("api/bookings", (Booking booking) =>
         {
            
-            var ev = DataStore.Events.FirstOrDefault(e => e.id == booking.event_id);
+            var ev = EventRepository.events.FirstOrDefault(e => e.id == booking.event_id);
             if (ev == null)
+            {
                 return Results.BadRequest("Event not found");
-
-            int newId = DataStore.Bookings.Count > 0 ? DataStore.Bookings.Max(b => b.id) + 1 : 1;
-            booking.id = newId;
-            booking.createdat = DateTime.UtcNow;
-            DataStore.Bookings.Add(booking);
-            return Results.Created($"/bookings/{newId}", booking);
+            }
+            int newId;
+            lock (BookingRepository.bookings)
+            {
+                newId = BookingRepository.bookings.Count > 0 ? BookingRepository.bookings.Max(b => b.id) + 1 : 1;
+                booking.id = newId;
+                booking.createdat = DateTime.UtcNow;
+                BookingRepository.bookings.Add(booking);
+            }
+            return Results.Created($"api/bookings/{newId}", booking);
         });
-
-        app.Run();
+       
+       await app.RunAsync();
     }
 }
